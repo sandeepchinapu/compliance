@@ -1,0 +1,30 @@
+%tr
+  %td{:style => "width:40%;"}= data[:agency_tax_form_id]
+%tr
+  %td{:colspan => "2"} 
+    .section.expandable
+      %h5.section-title view
+      .section-content
+        - @fields_data[:electronic_form_req_fields][:electronic_form_req].each do |field_name, header, is_internal|
+          = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+        %internal
+          %dl
+            %dt
+              %h5 History of e-form requirement
+            %dd
+              .section.expandable
+                %h5.section-title view
+                .section-content
+                  - data[:record_effective_date_audit].each do |history_data|
+                    %dl
+                      %dt Effective Date :
+                      %dd
+                        .section.expandable
+                          %h5.section-title= history_data['DataChangeAudit']['DataEffectiveDate']
+                          .section-content   
+                            - @fields_data[:electronic_form_req_fields][:history_electronic_form_req].each do |field_name, header| 
+                              = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}
+        %internal                      
+          %h4 Verification Tracking
+          - @fields_data[:verification_fields][:verification_tracking].each do |field_name, header, is_internal|
+            = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}

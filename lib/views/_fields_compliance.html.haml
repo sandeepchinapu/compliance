@@ -1,0 +1,10 @@
+- if data[field_name.to_sym].present?
+  - if is_internal 
+    %internal
+      %dl
+        %dt= header
+        %dd= data[field_name.to_sym]
+  - else 
+    %dl
+      %dt= header
+      %dd= data[field_name.to_sym]

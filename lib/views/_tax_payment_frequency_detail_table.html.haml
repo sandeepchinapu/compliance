@@ -1,0 +1,31 @@
+%tr
+  %td= data[:tax_payment_frequency_code]
+  %td= data[:agency_tax_payment_name] 
+%tr
+  %td{:colspan => "3"}
+    .section.expandable
+      %h5.section-title view
+      .section-content
+        - @fields_data[:tax_payment_frequency_fields][:tax_payment_frequency].each do |field_name, header, is_internal|
+          = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+        %internal  
+          %dl
+            %dt
+              %h5 History of tax payment frequency details
+            %dd
+              .section.expandable
+                %h5.section-title view
+                .section-content
+                  - data[:record_effective_date_audit].each do |history_data|
+                    %dl
+                      %dt Effective Date :
+                      %dd
+                        .section.expandable
+                          %h5.section-title= history_data['DataChangeAudit']['DataEffectiveDate']
+                          .section-content   
+                            - @fields_data[:tax_payment_frequency_fields][:history_tax_payment_frequency].each do |field_name, header| 
+                              = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}
+        %internal
+          %h4 Verification Tracking                  
+          - @fields_data[:verification_fields][:verification_tracking].each do |field_name, header, is_internal|
+            = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}

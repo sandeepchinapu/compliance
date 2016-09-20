@@ -1,0 +1,25 @@
+- @fields_data[:early_tax_payment_fields][:early_tax_payment].each do |field_name, header, is_internal|
+  = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+%h4 Electronic Funds Transfer (EFT)
+- @fields_data[:early_tax_payment_fields][:electronic_funds_transfer].each do |field_name, header, is_internal|
+  = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+%internal
+  %dl
+    %dt
+      %h5 History of early tax payment detail
+    %dd
+      .section.expandable
+        %h5.section-title view
+        .section-content
+          - data[:record_effective_date_audit].each do |history_data|
+            %dl
+              %dt Effective Date :
+              %dd
+                .section.expandable
+                  %h5.section-title= history_data['DataChangeAudit']['DataEffectiveDate']
+                  .section-content
+                    - @fields_data[:early_tax_payment_fields][:history_early_tax_payment].each do |field_name, header| 
+                      = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}   
+%h4 Verification Tracking
+- @fields_data[:verification_fields][:verification_tracking].each do |field_name, header, is_internal|
+  = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}

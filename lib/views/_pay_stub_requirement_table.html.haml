@@ -1,0 +1,21 @@
+- @fields_data[:pay_stub_requirement_fields][:pay_stub_requirement].each do |field_name, header, is_internal|
+  = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+%dl
+  %dt
+    %h5 History of pay stub requirement
+  %dd
+    .section.expandable
+      %h5.section-title view
+      .section-content
+        - data[:record_effective_date_audit].each do |history_data|
+          %dl
+            %dt Effective Date :
+            %dd
+              .section.expandable
+                %h5.section-title= history_data['DataChangeAudit']['DataEffectiveDate']
+                .section-content   
+                  - @fields_data[:pay_stub_requirement_fields][:history_pay_stub_requirement].each do |field_name, header| 
+                    = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}
+%h4 Verification Tracking
+- @fields_data[:verification_fields][:verification_tracking].each do |field_name, header, is_internal|
+  = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}

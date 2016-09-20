@@ -1,0 +1,70 @@
+- @fields_data[:agency_contact_info_fields][:agency_contact_info].each do |field_name, header, is_internal|
+  = render partial: 'fields_compliance', locals: { data: data, header: header, field_name: field_name, is_internal: is_internal }
+%internal
+  %dl
+    %dt
+      %h5 History of Agency contact information
+    %dd  
+      .section.expandable
+        %h5.section-title view
+        .section-content
+          - data[:detail_effective_date_audit].each do |history_data|
+            %dl
+              %dt Detail Effective Date :
+              %dd 
+                .section.expandable
+                  %h5.section-title= history_data['DataChangeAudit']['DataEffectiveDate']
+                  .section-content
+                    - @fields_data[:agency_contact_info_fields][:history_agency_contact_info].each do |field_name, header| 
+                      = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}
+- if data[:legal_holidays_observed_note].present?                 
+  %h4 Agency Holidays
+  - @fields_data[:agency_contact_info_fields][:agency_holidays].each do |field_name, header, is_internal|
+    = render partial: 'fields_compliance', locals: { data: data, header: header, field_name: field_name, is_internal: is_internal }
+  %internal
+    %dl  
+      %dt
+        %h5 History of Holidays
+      %dd
+        .section.expandable
+          %h5.section-title view
+          .section-content  
+            - data[:holiday_effective_date_audit].each do |history_data|
+              %dl
+                %dt Detail Effective Date :
+                %dd
+                  .section.expandable
+                    %h5.section-title= history_data['DataChangeAudit']['HolidayEffectiveDate'] 
+                    .section-content 
+                      - @fields_data[:agency_contact_info_fields][:history_agency_holidays].each do |field_name, header| 
+                        = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}
+- if data[:account_number_name].present?                        
+  %h4 Agency Account Number Formats
+  - @fields_data[:agency_contact_info_fields][:agency_acc_number_format].each do |field_name, header, is_internal|
+    = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal }
+  %internal
+    %dl
+      %dt
+        %h5 History of Agency Account Number Formats
+      %dd
+        .section.expandable
+          %h5.section-title view
+          .section-content
+            - data[:acct_num_effective_date_audit].each do |history_data|
+              %dl
+                %dt Account Number Effective Date :
+                %dd
+                  .section.expandable
+                    %h5.section-title= history_data['DataChangeAudit']['DataEffectiveDate'] 
+                    .section-content 
+                      - @fields_data[:agency_contact_info_fields][:history_agency_acc_number_format].each do |field_name, header| 
+                        = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}
+- if data[:reporting_codes_req_note].present?
+  %internal
+    %h4 Report Code Information
+    - @fields_data[:agency_contact_info_fields][:report_code_info].each do |field_name, header, is_internal|
+      = render partial: 'fields_compliance', locals: { data: data, header: header, field_name: field_name, is_internal: is_internal }
+%internal
+  %h4 Verification Tracking
+  - @fields_data[:verification_fields][:verification_tracking].each do |field_name, header, is_internal|
+    = render partial: 'fields_compliance', locals: { data: data, header: header, field_name: field_name, is_internal: is_internal }

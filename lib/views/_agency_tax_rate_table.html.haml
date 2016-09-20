@@ -1,0 +1,91 @@
+- @fields_data[:agency_tax_rate_fields][:agency_tax_rate].each do |field_name, header, is_internal|
+  = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+%internal
+  %dl
+    %dt
+      %h5 History of Agency tax rate
+    %dd
+      .section.expandable
+        %h5.section-title view
+        .section-content
+          - data[:er_rate_effective_date_audit].each do |history_data|
+            %dl
+              %dt Effective Date :
+              %dd
+                .section.expandable
+                  %h5.section-title= history_data['DataChangeAudit']['DataEffectiveDate']
+                  .section-content   
+                    - @fields_data[:agency_tax_rate_fields][:history_agency_tax_rate].each do |field_name, header| 
+                      = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}
+- if data[:employer_wage_base_amount].present?
+  %h4 Employer Wage Base
+  - @fields_data[:agency_tax_rate_fields][:employer_wage_base].each do |field_name, header, is_internal|
+    = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+  %internal
+    %dl
+      %dt 
+        %h5 History of Employer Wage Base
+      %dd 
+        .section.expandable
+          %h5.section-title view
+          .section-content
+            - data[:er_wb_effective_date_audit].each do |history_data|
+              %dl
+                %dt Effective Date :
+                %dd
+                  .section.expandable
+                    %h5.section-title= history_data['DataChangeAudit']['DataEffectiveDate']
+                    .section-content
+                      - @fields_data[:agency_tax_rate_fields][:history_employer_wage_base].each do |field_name, header| 
+                        = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}
+- if data[:fixed_employee_rate].present?
+  %h4 Employee Rates
+  - @fields_data[:agency_tax_rate_fields][:employee_rates].each do |field_name, header, is_internal|
+    = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+  %internal
+    %dl
+      %dt
+        %h5 History of employee rates
+      %dd 
+        .section.expandable
+          %h5.section-title view
+          .section-content 
+            - data[:ee_rate_effective_date_audit].each do |history_data|
+              %dl
+                %dt Effective Date :
+                %dd
+                  .section.expandable
+                    %h5.section-title= history_data['DataChangeAudit']['DataEffectiveDate']
+                    .section-content
+                      - @fields_data[:agency_tax_rate_fields][:history_employee_rates].each do |field_name, header| 
+                        = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}
+- if data[:employee_wage_base_amount].present?
+  %h4 Employee Wage Base
+  - @fields_data[:agency_tax_rate_fields][:employee_wage_base].each do |field_name, header, is_internal|
+    = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+  %internal
+    %dl 
+      %dt
+        %h5 History of employee Wage Base
+      %dd
+        .section.expandable
+          %h5.section-title view
+          .section-content
+            - data[:ee_wb_effective_date_audit].each do |history_data|
+              %dl
+                %dt Effective Date :
+                %dd
+                  .section.expandable
+                    %h5.section-title= history_data['DataChangeAudit']['DataEffectiveDate']
+                    .section-content  
+                      - @fields_data[:agency_tax_rate_fields][:history_employee_wage_base].each do |field_name, header| 
+                        = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}
+- if data[:reporting_codes_req_note].present?
+  %internal
+    %h4 Service Requirements
+    - @fields_data[:agency_tax_rate_fields][:service_req].each do |field_name, header, is_internal|
+      = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+%internal
+  %h4 Verification Tracking
+  - @fields_data[:verification_fields][:verification_tracking].each do |field_name, header, is_internal|
+    = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}

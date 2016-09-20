@@ -1,0 +1,44 @@
+- @fields_data[:agency_surcharge_fields][:agency_surcharge].each do |field_name, header, is_internal|
+  = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+%internal
+  %dl
+    %dt
+      %h5 History of Agency surcharge detail
+    %dd
+      .section.expandable
+        %h5.section-title view
+        .section-content
+          - data[:record_effective_date_audit].each do |history_data|
+            %dl
+              %dt Detail Effective Date :
+              %dd 
+                .section.expandable
+                  %h5.section-title= history_data['DataChangeAudit']['DataEffectiveDate']
+                  .section-content
+                    - @fields_data[:agency_surcharge_fields][:history_agency_surcharge].each do |field_name, header| 
+                      = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}
+%internal
+  %h4 Service Requirements
+  - @fields_data[:agency_surcharge_fields][:service_req].each do |field_name, header, is_internal|
+    = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+  %dl
+    %dt
+      %h5 History of service requirement
+    %dd
+      .section.expandable
+        %h5.section-title view
+        .section-content
+          - data[:record_effective_date_audit].each do |history_data|
+            %dl
+              %dt Detail Effective Date :
+              %dd 
+                .section.expandable
+                  %h5.section-title= history_data['DataChangeAudit']['DataEffectiveDate']
+                  .section-content
+                    - @fields_data[:agency_surcharge_fields][:history_service_req].each do |field_name, header| 
+                      = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}
+%internal
+  %h4 Verification Tracking
+  - @fields_data[:verification_fields][:verification_tracking].each do |field_name, header, is_internal|
+    = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal} 
+

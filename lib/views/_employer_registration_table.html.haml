@@ -1,0 +1,6 @@
+- @fields_data[:employer_registration_fields][:employer_registration].each do |field_name, header, is_internal|
+  = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+%internal
+  %h4 Verification Tracking 
+  - @fields_data[:verification_fields][:verification_tracking].each do |field_name, header, is_internal|
+    = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}

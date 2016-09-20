@@ -1,0 +1,161 @@
+%h2 Payroll Tax Compliance
+.section.expandable
+  %h2.section-title Tax Forms
+  .section-content
+    %h3 Agency Form Detail
+    %table
+      %thead
+        %tr
+          %th Form ID
+          %th Tax Code
+          %th Form Name
+      %tbody
+        - @state_json[:agency_form_detail].each do |data|
+          = render partial: 'agency_form_detail_table', locals: { data: data }  
+
+.section.expandable
+  %h2.section-title Withholdings
+  .section-content
+    - @state_json[:agency_tax_item_detail].each do |data|
+      - if data[:tax_item_code] == 'WH/UI' || data[:tax_item_code] == 'WH'
+        %h3 Agency contact information
+        = render partial: 'agency_contact_information_table', locals: { data: data }
+    - @state_json[:agency_withholding_tax_details].each do |data|
+      %h3 Agency Withholding Details
+      = render partial: 'agency_withholding_detail_table', locals: { data: data }
+    - @state_json[:agency_tax_payment_detail].each do |data|
+      - if data[:tax_item_code] == 'WH/SDI' || data[:tax_item_code] == 'WH' || data[:tax_item_code] == 'WH/UI'
+        %h3 Agency Tax Payment Details
+        = render partial: 'agency_tax_payment_detail_table', locals: { data: data }
+    - if Compliance::FieldsData.show?(@state_json[:tax_payment_frequency], 'tax_payment_frequency_wh')
+      %h3 Tax Payment Frequency Detail
+      %table
+        %thead
+          %tr
+            %th Payment Frequency
+            %th Payment Name
+        %tbody
+          - @state_json[:tax_payment_frequency].each do |data|
+            - if data[:tax_item_code] == 'WH/SDI' || data[:tax_item_code] == 'WH' || data[:tax_item_code] == 'WH/UI'  
+              = render partial: 'tax_payment_frequency_detail_table', locals: { data: data }
+    - @state_json[:electroinc_mandate_requirement].each do |data|
+      - if data[:tax_item_code] == 'WH' || data[:tax_item_code] == 'WH/UI/SDI' || data[:tax_item_code] == 'WH/UI'
+        %h3 Electronic Mandate Requirements
+        = render partial: 'electronic_mandate_requirement_table', locals: { data: data }
+    %internal
+      - @state_json[:early_tax_payment_detail].each do |data|
+        - if data[:tax_item_code] == 'WH' || data[:tax_item_code] == 'WH/UI/SDI' || data[:tax_item_code] == 'WH/UI'
+          %h3 Early Tax Payment Detail
+          = render partial: 'early_tax_payment_table', locals: { data: data }
+
+.section.expandable
+  %h2.section-title Unemployment Tax
+  .section-content 
+    - @state_json[:agency_tax_item_detail].each do |data|
+      - if data[:tax_item_code] == 'WH/UI' || data[:tax_item_code] == 'UI'
+        %h3 Agency contact information
+        = render partial: 'agency_contact_information_table', locals: { data: data }
+    - @state_json[:agency_tax_rate].each do |data|
+      - if data[:tax_item_code] == 'UI'
+        %h3 Agency Tax Rate Detail
+        = render partial: 'agency_tax_rate_table', locals: { data: data }
+    - @state_json[:agency_surcharge].each do |data|
+      %h3 Agency Surcharge Detail
+      = render partial: 'agency_surcharge_detail_table', locals: { data: data }
+    - @state_json[:agency_tax_payment_detail].each do |data|
+      - if data[:tax_item_code] == 'UI' || data[:tax_item_code] == 'WH/UI'
+        %h3 Agency Tax Payment Details
+        = render partial: 'agency_tax_payment_detail_table', locals: { data: data }
+    - if Compliance::FieldsData.show?(@state_json[:tax_payment_frequency], 'tax_payment_frequency_ui')
+      %h3 Tax Payment Frequency Detail
+      %table
+        %thead
+          %tr
+            %th Payment Frequency
+            %th Payment Name
+        %tbody
+          - @state_json[:tax_payment_frequency].each do |data|
+            - if data[:tax_item_code] == 'UI' || data[:tax_item_code] == 'WH/UI'
+              = render partial: 'tax_payment_frequency_detail_table', locals: { data: data }
+    - @state_json[:electroinc_mandate_requirement].each do |data|
+      - if data[:tax_item_code] == 'UI' || data[:tax_item_code] == 'WH/UI/SDI' || data[:tax_item_code] == 'WH/UI'
+        %h3 Electronic Mandate Requirements
+        = render partial: 'electronic_mandate_requirement_table', locals: { data: data }
+    %internal
+      - @state_json[:early_tax_payment_detail].each do |data|
+        - if data[:tax_item_code] == 'UI' || data[:tax_item_code] == 'WH/UI/SDI' || data[:tax_item_code] == 'WH/UI'
+          %h3 Early Tax Payment Detail
+          = render partial: 'early_tax_payment_table', locals: { data: data }
+
+.section.expandable
+  %h2.section-title Other Taxes
+  .section-content
+    - @state_json[:agency_tax_item_detail].each do |data|
+      - if data[:tax_item_code] == 'SDI' || data[:tax_item_code] == 'WC'
+        %h3 Agency contact information
+        = render partial: 'agency_contact_information_table', locals: { data: data }
+    - @state_json[:agency_tax_rate].each do |data|
+      - if data[:tax_item_code] == 'SDI' || data[:tax_item_code] == 'WC'
+        %h3 Agency Tax Rate Detail
+        = render partial: 'agency_tax_rate_table', locals: { data: data }
+    - if Compliance::FieldsData.show?(@state_json[:tax_payment_frequency], 'tax_payment_frequency_ot')    
+      %h3 Tax Payment Frequency Detail
+      %table
+        %thead
+          %tr
+            %th Payment Frequency
+            %th Payment Name
+        %tbody
+          - @state_json[:tax_payment_frequency].each do |data|
+            - if data[:tax_item_code] == 'WH/SDI' || data[:tax_item_code] == 'WC'
+              = render partial: 'tax_payment_frequency_detail_table', locals: { data: data }
+    - @state_json[:agency_tax_payment_detail].each do |data|
+      - if data[:tax_item_code] == 'WH/SDI' || data[:tax_item_code] == 'WC'
+        %h3 Agency Tax Payment Details
+        = render partial: 'agency_tax_payment_detail_table', locals: { data: data }
+
+.section.expandable
+  %h2.section-title Local Tax
+  .section-content
+    - if @state_json[:agency_local_tax_rate_detail].present?
+      %h3 Agency Local Tax Rate Detail
+      %table
+        %thead
+          %tr
+            %th Local Tax Name
+        %tbody
+          - @state_json[:agency_local_tax_rate_detail].each do |data|
+            = render partial: 'agency_local_tax_rate_detail_table', locals: { data: data }
+
+.section.expandable
+  %h2.section-title E-file Pay
+  .section-content
+    - if @state_json[:electronic_form_requirement].present?
+      %h3 Electronic Form Requirement Detail
+      %table
+        %thead
+          %tr
+            %th Form ID
+        %tbody
+          - @state_json[:electronic_form_requirement].each do |data|
+            = render partial: 'electronic_form_requirement_table', locals: { data: data }
+
+%internal
+  .section.expandable
+    %h2.section-title General State Agency
+    .section-content
+      - @state_json[:pay_stub_requirement].each do |data|
+        %h3 Pay Stub Requirement
+        = render partial: 'pay_stub_requirement_table', locals: { data: data }
+
+.section.expandable
+  %h2.section-title Employer Registration
+  .section-content  
+    - @state_json[:employer_registration].each do |data|
+      - if data[:tax_item_code] == 'WH'
+        %h3 Withholding Tax
+        = render partial: 'employer_registration_table', locals: { data: data } 
+    - @state_json[:employer_registration].each do |data|
+      - if data[:tax_item_code] == 'UI'
+        %h3 Unemployment Insurance Tax
+        = render partial: 'employer_registration_table', locals: { data: data }

@@ -1,0 +1,23 @@
+- @fields_data[:agency_tax_payment_fields][:agency_tax_payment].each do |field_name, header, is_internal|
+  = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+%internal
+  %dl
+    %dt
+      %h5 History of Agency Tax Payment Details
+    %dd
+      .section.expandable
+        %h5.section-title view
+        .section-content
+          - data[:record_effective_date_audit].each do |history_data|
+            %dl
+              %dt Effective Date :
+              %dd
+                .section.expandable
+                  %h5.section-title= history_data['DataChangeAudit']['DataEffectiveDate']
+                  .section-content   
+                    - @fields_data[:agency_tax_payment_fields][:history_agency_tax_payment].each do |field_name, header| 
+                      = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}
+%internal                    
+  %h4 Verification Tracking
+  - @fields_data[:verification_fields][:verification_tracking].each do |field_name, header, is_internal|
+    = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal} 

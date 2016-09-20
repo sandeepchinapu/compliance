@@ -1,0 +1,56 @@
+%tr
+  %td= data[:agency_tax_form_id]
+  %td= data[:tax_item_code]
+  %td= data[:form_name]
+%tr
+  %td
+    .section.expandable
+      %h5.section-title view
+      .section-content
+        - @fields_data[:agency_form][:agency].each do |field_name, header, is_internal|
+          = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+        %internal
+          %dl  
+            %dt
+              %h5 History of Agency Form Detail
+            %dd
+              .section.expandable
+                %h5.section-title view
+                .section-content
+                  - data[:detail_effective_date_audit].each do |history_data|
+                    %dl
+                      %dt Effective Date :
+                      %dd
+                        .section.expandable
+                          %h5.section-title= history_data['DataChangeAudit']['DataEffectiveDate']
+                          .section-content 
+                            - @fields_data[:agency_form][:history_agency].each do |field_name, header| 
+                              = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}
+        - if data[:filing_method_note].present?
+          %h4 Send Methods Available in QuickBooks
+          - @fields_data[:agency_form][:send_methods].each do |field_name, header, is_internal|  
+            = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}                 
+          %internal
+            %dl
+              %dt
+                %h5 History of Send Methods Available in QuickBooks
+              %dd
+                .section.expandable
+                  %h5.section-title view
+                  .section-content
+                    - data[:qb_methods_effective_date_audit].each do |history_data|
+                      %dl
+                        %dt Effective Date :
+                        %dd
+                          .section.expandable
+                            %h5.section-title= history_data['DataChangeAudit']['DataEffectiveDate']
+                            .section-content 
+                              - @fields_data[:agency_form][:history_send_methods].each do |field_name, header|
+                                = render partial: 'history_fields_compliance', locals: { header: header, field_name: field_name, history_data: history_data}
+        %internal
+          %h5 Verification Tracking
+          - @fields_data[:verification_fields][:verification_tracking].each do |field_name, header, is_internal|
+            = render partial: 'fields_compliance', locals: {data: data, header: header, field_name: field_name, is_internal: is_internal}
+        %dl 
+          %dt Date Modified
+          %dd= data[:date_modified]
